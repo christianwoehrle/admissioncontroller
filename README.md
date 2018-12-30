@@ -1,4 +1,9 @@
 # Admissioncontroller
+[![GoDoc](https://godoc.org/github.com/christianwoehrle/protobuf-example?status.svg)](https://godoc.org/github.com/christianwoehrle/protobuf-example)
+[![CircleCI](https://img.shields.io/circleci/project/github/christianwoehrle/protobuf-example.png)](https://circleci.com/gh/christianwoehrle/protobuf-example)
+[![Go Report Card](https://goreportcard.com/badge/github.com/christianwoehrle/protobuf-example)](https://goreportcard.com/report/github.com/christianwoehrle/protobuf-example)
+
+
 
 Just a simple Admissioncontroller with the necessary secrets and config so that the ApiServer can actually call the Controller without TLS-Errors.
 
