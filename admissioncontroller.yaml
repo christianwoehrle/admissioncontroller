@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: admissioncontroller
+  name: admissioncontroller
+spec:
+  ports:
+    - name: https
+      port: 443
+      protocol: "TCP"
+      targetPort: 8443
+  selector:
+    app: admissioncontroller
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: admissioncontroller
+spec:
+  template:
+    metadata:
+      labels:
+        app: admissioncontroller
+    spec:
+      containers:
+        - name: admissioncontroller
+          image: "christianwoehrle/admissioncontroller"
+          imagePullPolicy: Always
+          args:
+            - "-tls-cert=/etc/admission-controller/tls/tls.crt"
+            - "-tls-key=/etc/admission-controller/tls/tls.key"
+          volumeMounts:
+            - name: tls
+              mountPath: /etc/admission-controller/tls
+          ports:
+          - containerPort: 8443
+            name: https
+      volumes:
+        - name: tls
+          secret:
+            secretName: admissioncontroller
