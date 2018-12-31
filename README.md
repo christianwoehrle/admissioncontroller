@@ -7,19 +7,23 @@
 
 Just a simple Admissioncontroller with the necessary secrets and config so that the ApiServer can actually call the Controller without TLS-Errors.
 
-YOu can start everything with the command 
+
+You can start everything with the command 
 
 ```
 ./setup.sh
 ```
 
-and check that the AdmissionController receives call about new pod with
+and check that the admissioncontroller receives calls about new pod with
 
 ```
 kubectl logs -f $(kubectl get po | grep admissioncontroller | gawk '{print $1}')
 ```
 
-To test the AdmissionController, just start a new pod and check that the admissioncontroller logs the events.
+To test the AdmissionController, just start a new pod and check that the admissioncontroller logs the events. To start the pod you could use
+```
+kubectl apply -f pod.yaml
+```
 
 
 
