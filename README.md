@@ -19,21 +19,45 @@ and check that the AdmissionController receives call about new pod with
 kubectl logs -f $(kubectl get po | grep admissioncontroller | gawk '{print $1}')
 ```
 
-Just start a new pod and check that the admissioncontroller logs the events.
+To test the AdmissionController, just start a new pod and check that the admissioncontroller logs the events.
 
 
 
+## New certificates
 
 
-You can create new certificates with script ```key-creation/create-certificates.sh``` or just use whatś in the directory ```key-creation```.
+You can use the certficates that are already prepared in the directory ```key-creation```.
 
 The Files```ca[key|crt]``` form up the certificate authority that is used to sign the server certificate ```admissioncontroller.[key|crt]``` and the client certificate ```client.[key|crt]```.
 
-If you create new certificates, you have to update the file ```webhook-config.yaml```.
-The field ```caBundle``` has to contain the base64 encoded server certificate from ```admissioncontroller.crt```
+Or you can create new certificates with script ```key-creation/create-certificates.sh```.
+If you want to use new certificates, change the files ```*.conf``` to your linking.
+
+One important thing to keep in mind is that the common name (CN) of the admissioncontroller-certificate must match
+the DNS Name of the service of the admission controller.
+
+I.e. the field ```commonName``` in File ```key-creation/admissioncontroller.conf``` could be ```admissioncontroller1.default.svc```
+and the field ```name``` in file ```admissioncontroller.yaml``` could be like that.
+
+```
+kind: Service
+metadata:
+  name: admissioncontroller
+
+``` 
+
+Keep in mind that for every servicename a DNS-Name with the suffix ```<namespace>.svc``` is created, so in the namespace ```default``` the dns name
+becomes ```admissioncontroller.default.svc``` which matched the common name.
+
+
+
+
+
+If you create a new certificate authorization, you have to update the file ```admissioncontroller-config.yaml```.
+The field ```caBundle``` has to contain the base64 encoded server certificate from ```ca.crt```
 
 You get this with 
 ```
-base64 key-creation/admissioncontroller.crt| tr -d "\n"
+base64 key-creation/ca.crt| tr -d "\n"
 ```
 
