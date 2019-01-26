@@ -54,6 +54,8 @@ func admissionReviewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("Kind: %s\nName: %s\nNamespace: %s\nUser: %s\n", ar.Request.Kind, ar.Request.Name, ar.Request.Namespace, ar.Request.UserInfo.Username)
+
 	pod := v1.Pod{}
 	if err := json.Unmarshal(ar.Request.Object.Raw, &pod); err != nil {
 		log.Println(err)
