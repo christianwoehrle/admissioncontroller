@@ -57,7 +57,6 @@ func main() {
 }
 
 func admissionReviewHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("\nCalled admissionReviewHandler")
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
